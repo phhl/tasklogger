@@ -1,0 +1,126 @@
+/* public/main.css */
+.footer a {
+  color: #00000093;
+  font-weight: 500;
+}
+
+.footer a:hover {
+  text-decoration: underline dotted 2px;
+}
+
+body {
+  background: #f6f6f6;
+}
+@media (min-width: 769px) {
+  .input[type="time"] {
+    max-width: 150px;
+    width: auto;
+    display: inline-block;
+  }
+}
+
+.navbar {
+  max-width: 900px;
+  margin: 2rem auto 1rem auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px #0001;
+  background: #fff;
+  padding: 0.5rem 1rem;
+}
+
+.notification {
+  transition: opacity 0.4s;
+}
+
+.notification.hide {
+  opacity: 0;
+  pointer-events: none;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  transition: opacity 0.4s, height 0.4s, margin 0.4s, padding 0.4s;
+}
+
+/* Übersicht: Mobile-friendly Date Inputs & Buttons */
+.overview-filter-form .input.overview-date-input {
+  min-width: 56px;
+  max-width: 100px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .overview-filter-form .column.is-narrow-mobile {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+  .overview-filter-form .input.overview-date-input {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+.section {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+.table td,
+.table th {
+  vertical-align: middle !important;
+}
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.6);
+}
+
+/* Tabelle mobil umfließen, statt overflow */
+@media (max-width: 650px) {
+  .logger-table thead {
+    display: none;
+  }
+  .logger-table,
+  .logger-table tbody,
+  .logger-table tr,
+  .logger-table td {
+    display: block;
+    width: 100%;
+  }
+  .logger-table tr {
+    margin-bottom: 1.5em;
+    border-bottom: 2px solid #eee;
+  }
+  .logger-table td {
+    padding: 0.6em 1em;
+    border: none;
+    position: relative;
+  }
+  .logger-table td:not(:last-child) {
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .logger-table td::before {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.2em;
+    color: #888;
+  }
+  .logger-table td:nth-child(1)::before {
+    content: "Datum";
+  }
+  .logger-table td:nth-child(2)::before {
+    content: "Tätigkeit";
+  }
+  .logger-table td:nth-child(3)::before {
+    content: "Arbeitszeit";
+  }
+  .logger-table td:nth-child(4)::before {
+    content: "Fahrzeit";
+  }
+}
+
+@media (max-width: 650px) {
+  .logger-table td:last-child {
+    margin-top: 0.7em;
+    padding-bottom: 1.2em;
+    border-bottom: none;
+  }
+}

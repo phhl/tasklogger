@@ -1,0 +1,152 @@
+<h1 class="title">
+    <%= edit ? 'Eintrag bearbeiten' : 'Neuen Eintrag erfassen' %>
+</h1>
+
+<form action="<%= edit ? '/eintrag/bearbeiten/' + entry.id : '/eintrag/neu' %>" method="POST" class="box">
+    <div class="columns is-multiline">
+        <div class="column is-6">
+            <div class="field">
+                <label class="label">Datum</label>
+                <div class="control">
+                    <input class="input" type="date" name="date" value="<%= entry.date %>" required>
+                </div>
+            </div>
+        </div>
+        <div class="column is-12">
+            <div class="field">
+                <label class="label">Tätigkeit</label>
+                <div class="control">
+                    <textarea class="textarea" name="activity" required><%= entry.activity || '' %></textarea>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="column is-3-desktop is-4-tablet">
+            <div class="field">
+                <label class="label">Arbeitszeit</label>
+                <div class="field has-addons">
+                    <div class="control">
+                        <div class="select">
+                            <select name="duration_h" required>
+                                <% for (let h=0; h <=12; h++) { %>
+                                    <option value="<%= h %>" <%=+entry.duration_h===h ? 'selected' : '' %>><%= h %>
+                                            h</option>
+                                    <% } %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control">
+                        <div class="select">
+                            <select name="duration_m" required>
+                                <% [0,15,30,45].forEach(m=> { %>
+                                    <option value="<%= m %>" <%=+entry.duration_m===m ? 'selected' : '' %>><%= m %>
+                                            min</option>
+                                    <% }); %>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-3-desktop is-4-tablet">
+            <div class="field">
+                <label class="label">Fahrzeit</label>
+                <div class="field has-addons">
+                    <div class="control">
+                        <div class="select">
+                            <select name="travel_h">
+                                <% for (let h=0; h <=12; h++) { %>
+                                    <option value="<%= h %>" <%=+entry.travel_h===h ? 'selected' : '' %>><%= h %> h
+                                    </option>
+                                    <% } %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control">
+                        <div class="select">
+                            <select name="travel_m">
+                                <% [0,15,30,45].forEach(m=> { %>
+                                    <option value="<%= m %>" <%=+entry.travel_m===m ? 'selected' : '' %>><%= m %>
+                                            min</option>
+                                    <% }); %>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="column is-12" id="travel-times-block">
+            <div class="columns ">
+                <div class="column is-3-desktop is-4-tablet">
+                    <div class="field">
+                        <label class="label">Beginn Dienstreise</label>
+                        <div class="control">
+                            <input class="input" type="time" name="t1" value="<%= entry.t1 || '' %>">
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-4-tablet">
+                    <div class="field">
+                        <label class="label">Beginn Dienstgeschäft</label>
+                        <div class="control">
+                            <input class="input" type="time" name="t2" value="<%= entry.t2 || '' %>">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="columns ">
+                <div class="column is-3-desktop is-4-tablet">
+                    <div class="field">
+                        <label class="label">Ende Dienstgeschäft</label>
+                        <div class="control">
+                            <input class="input" type="time" name="t3" value="<%= entry.t3 || '' %>">
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-4-tablet">
+                    <div class="field">
+                        <label class="label">Ende Dienstreise</label>
+                        <div class="control">
+                            <input class="input" type="time" name="t4" value="<%= entry.t4 || '' %>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="column is-12">
+        <div class="field">
+            <button class="button is-primary" type="submit">
+                <%= edit ? 'Speichern' : 'Eintragen' %>
+            </button>
+            <a class="button is-light" href="/uebersicht">Abbrechen</a>
+        </div>
+    </div>
+    </div>
+</form>
+<script>
+    function checkTravelFields() {
+        var travelH = document.querySelector('[name="travel_h"]').value;
+        var travelM = document.querySelector('[name="travel_m"]').value;
+        var block = document.getElementById('travel-times-block');
+        if ((parseInt(travelH) || 0) + (parseInt(travelM) || 0) > 0) {
+            block.style.display = '';
+        } else {
+            block.style.display = 'none';
+            // Optional: Leere Felder beim Ausblenden
+            document.querySelectorAll('#travel-times-block input').forEach(f => f.value = '');
+        }
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+        document.querySelector('[name="travel_h"]').addEventListener('change', checkTravelFields);
+        document.querySelector('[name="travel_m"]').addEventListener('change', checkTravelFields);
+        checkTravelFields();
+    });
+</script>

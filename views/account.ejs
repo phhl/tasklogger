@@ -1,0 +1,53 @@
+<div class="columns is-centered">
+    <div class="column is-half">
+        <h1 class="title">Account-Einstellungen</h1>
+
+
+
+        <form action="/account" method="POST" class="box" onsubmit="return checkPasswordsMatch();">
+            <div class="field">
+                <label class="label">Benutzername <span style="color:#888">(zum Ändern mit
+                        aktuellem Passwort
+                        bestätigen)</span></label>
+                <div class="control">
+                    <input class="input" type="text" name="newUsername" value="<%= user.username %>" required>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Aktuelles Passwort</label>
+                <div class="control">
+                    <input class="input" type="password" name="oldPassword" required>
+                </div>
+            </div>
+            <hr />
+            <div class="field">
+                <label class="label">Neues Passwort </label>
+                <div class="control">
+                    <input class="input" type="password" name="newPassword" id="newPassword">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Neues Passwort wiederholen</label>
+                <div class="control">
+                    <input class="input" type="password" name="repeatPassword" id="repeatPassword">
+                </div>
+            </div>
+            <div class="field">
+                <button class="button is-link" type="submit">Ändern</button>
+            </div>
+        </form>
+        <script>
+            function checkPasswordsMatch() {
+                var newPassword = document.getElementById('newPassword').value;
+                var repeatPassword = document.getElementById('repeatPassword').value;
+                if (newPassword !== repeatPassword) {
+                    if (newPassword.length > 0) {
+                        alert('Die neuen Passwörter stimmen nicht überein!');
+                        return false;
+                    }
+                }
+                return true;
+            }
+        </script>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<h1 class="title">Benutzer löschen</h1>
+<div class="box">
+    <div class="is-danger mb-2">
+        Bist du sicher, dass du den Benutzer <strong>
+            <%= delUser.username %>
+        </strong> (ID <%= delUser.id %>) löschen möchtest?
+    </div>
+
+    <form action="/admin/benutzer/loeschen/<%= delUser.id %>" method="POST">
+        <button class="button is-danger" type="submit">Ja, löschen</button>
+        <a class="button is-light" href="/admin/benutzer">Abbrechen</a>
+    </form>
+</div>

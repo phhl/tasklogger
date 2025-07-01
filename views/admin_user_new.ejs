@@ -1,0 +1,19 @@
+<h1 class="title">Neuen Benutzer anlegen</h1>
+<form action="/admin/benutzer/neu" method="POST" class="box" style="max-width: 400px;">
+    <div class="field">
+        <label class="label">Benutzername</label>
+        <div class="control">
+            <input class="input" type="text" name="username" required>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Passwort</label>
+        <div class="control">
+            <input class="input" type="password" name="password" required>
+        </div>
+    </div>
+    <div class="field">
+        <button class="button is-link" type="submit">Anlegen</button>
+        <a class="button is-light" href="/admin/benutzer">Abbrechen</a>
+    </div>
+</form>

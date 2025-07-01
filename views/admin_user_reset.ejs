@@ -1,0 +1,24 @@
+<h1 class="title">Passwort zurücksetzen</h1>
+<div class="box">
+    <p class="mb-2">Setze das Passwort für <strong>
+            <%= resetUser.username %>
+        </strong> (ID <%= resetUser.id %>) neu:</p>
+    <form action="/admin/benutzer/reset/<%= resetUser.id %>" method="POST" style="max-width:400px;">
+        <div class="field">
+            <label class="label">Neues Passwort</label>
+            <div class="control">
+                <input class="input" type="password" name="newPassword" required minlength="4">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Neues Passwort wiederholen</label>
+            <div class="control">
+                <input class="input" type="password" name="repeatPassword" required minlength="4">
+            </div>
+        </div>
+        <div class="field">
+            <button class="button is-link" type="submit">Passwort setzen</button>
+            <a class="button is-light" href="/admin/benutzer">Abbrechen</a>
+        </div>
+    </form>
+</div>

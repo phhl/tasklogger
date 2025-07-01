@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="de">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            <%= title || 'Logger' %>
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="/bulma.min.css" rel="stylesheet">
+        <link href="/main.css" rel="stylesheet">
+    </head>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Burger-Menü aktivieren (Bulma-Standard)
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            if ($navbarBurgers.length > 0) {
+                $navbarBurgers.forEach(el => {
+                    el.addEventListener('click', () => {
+                        const target = el.dataset.target;
+                        const $target = document.getElementById(target);
+                        el.classList.toggle('is-active');
+                        $target.classList.toggle('is-active');
+                    });
+                });
+            }
+        });
+    </script>
+
+
+    <body>
+        <section class="section">
+            <div class="container">
+                <% if (user) { %>
+                    <nav class="navbar mb-4" role="navigation" aria-label="main navigation">
+                        <div class="navbar-brand">
+                            <a class="navbar-item" href="/">
+                                <strong>TaskLogger</strong>
+                            </a>
+                            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                                data-target="navbarLogger">
+                                <span aria-hidden="true"></span>
+                                <span aria-hidden="true"></span>
+                                <span aria-hidden="true"></span>
+                                <span aria-hidden="true"></span>
+                            </a>
+                        </div>
+                        <div id="navbarLogger" class="navbar-menu">
+                            <div class="navbar-start">
+                                <% if (user) { %>
+                                    <a class="navbar-item" href="/eintrag/neu">Neuer Eintrag</a>
+                                    <a class="navbar-item" href="/uebersicht">Übersicht</a>
+                                    <% } %>
+                                        <% if (user && user.id===1) { %>
+                                            <a class="navbar-item" href="/admin/benutzer">Benutzerverwaltung</a>
+                                            <% } %>
+
+                            </div>
+                            <% if (user) { %>
+                                <div class="navbar-end">
+                                    <div class="navbar-item">
+                                        <span>Angemeldet als: <strong>
+                                                <a class="has-text-black" href="/account">
+                                                    <%= user.username %>
+                                            </strong></a></span>
+                                    </div>
+                                    <div class="navbar-item">
+                                        <a class="button is-light" href="/logout">Logout</a>
+                                    </div>
+                                </div>
+                                <% } %>
+                        </div>
+                    </nav>
+                    <% } %>
+
+                        <% if (messages.error && messages.error.length) { %>
+                            <div class="notification is-danger">
+                                <%= messages.error.join('<br>') %>
+                            </div>
+                            <% } %>
+                                <% if (messages.success && messages.success.length) { %>
+                                    <div class="notification is-success">
+                                        <%= messages.success.join('<br>') %>
+                                    </div>
+                                    <% } %>
+                                        <% if (messages.info && messages.info.length) { %>
+                                            <div class="notification is-info">
+                                                <%= messages.info.join('<br>') %>
+                                            </div>
+                                            <% } %>
+                                                <%- body %>
+            </div>
+        </section>
+        <%- include("partials/footer") %>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const notifications = document.querySelectorAll('.notification');
+                    notifications.forEach(n => {
+                        if (n.innerText.trim().length > 0) {
+                            setTimeout(() => {
+                                n.classList.add('hide');
+
+                                setTimeout(() => {
+                                    if (n.parentNode) n.parentNode.removeChild(n);
+                                }, 600); // sollte > transition-Zeit sein
+                            }, 2500);
+                        }
+                    });
+                });
+            </script>
+
+    </body>
+
+</html>

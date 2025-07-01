@@ -1,0 +1,113 @@
+<h1 class="title">Monatsübersicht <%= month %>/<%= year %>
+</h1>
+
+<form class="mb-4 overview-filter-form" method="get" action="/uebersicht">
+    <div class="columns is-mobile is-multiline is-1 is-vcentered">
+        <div class="column" style="flex:0 0 70px;">
+            <input class="input overview-date-input" type="number" name="monat" min="01" max="12" value="<%= month %>"
+                required placeholder="MM">
+        </div>
+        <div class="column" style="flex:0 0 90px;">
+            <input class="input overview-date-input" type="number" name="jahr" min="2020" max="2100" value="<%= year %>"
+                required placeholder="JJJJ">
+        </div>
+        <div class="column" style="flex:0 0 120px;">
+            <button class="button is-link is-fullwidth" type="submit">Anzeigen</button>
+        </div>
+        <div class="column" style="flex:0 0 120px;">
+            <a class="button is-success is-fullwidth"
+                href="/export/xlsx?monat=<%= month %>&jahr=<%= year %>">Exportieren</a>
+        </div>
+    </div>
+</form>
+
+
+<table class="table is-fullwidth is-striped is-hoverable logger-table">
+    <thead>
+        <tr>
+            <th>Datum</th>
+            <th style="width: 38%;">Tätigkeit, Reise-/Terminzeiten</th>
+            <th>Arbeitszeit</th>
+            <th>Fahrzeit</th>
+            <th style="width:90px"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if (entries.length===0) { %>
+            <tr>
+                <td colspan="5">Keine Einträge für diesen Monat.</td>
+            </tr>
+            <% } else { %>
+                <% entries.forEach(e=> { %>
+                    <tr>
+                        <td>
+                            <%= e.date %>
+                        </td>
+                        <td>
+                            <div>
+                                <%= e.activity %>
+                            </div>
+                            <div class="columns" style="font-size: 0.98em;">
+                                <div class="column">
+                                    <% if (e.t1) { %>
+                                        <div><strong>Beginn DR:</strong>
+                                            <%= e.t1 %>
+                                        </div>
+                                        <% } %>
+                                            <% if (e.t2) { %>
+                                                <div><strong>Beginn DG:</strong>
+                                                    <%= e.t2 %>
+                                                </div>
+                                                <% } %>
+                                </div>
+                                <div class="column">
+                                    <% if (e.t4) { %>
+                                        <div><strong>Ende DG:</strong>
+                                            <%= e.t3 %>
+                                        </div>
+                                        <% } %>
+                                            <% if (e.t3) { %>
+                                                <div><strong>Ende DR:</strong>
+                                                    <%= e.t4 %>
+                                                </div>
+                                                <% } %>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <%= e.duration_h %>:<%= (""+e.duration_m).padStart(2, "0" ) %>
+                        </td>
+                        <td>
+                            <%= e.travel_h %>:<%= (""+e.travel_m).padStart(2, "0" ) %>
+                        </td>
+                        <td>
+                            <a class="button is-small is-info mb-1"
+                                href="/eintrag/bearbeiten/<%= e.id %>">Bearbeiten</a>
+                            <form action="/eintrag/loeschen/<%= e.id %>" method="POST" style="display:inline;"
+                                onsubmit="return confirm('Eintrag wirklich löschen?');">
+                                <button class="button is-small is-danger" type="submit">Löschen</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }); %>
+                        <% } %>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="2">Summe</th>
+            <th>
+                <%= sums.work %>
+            </th>
+            <th>
+                <%= sums.travel %>
+            </th>
+            <th colspan="5"></th>
+        </tr>
+        <tr>
+            <th colspan="2">Gesamt (Arbeit+Fahrt)</th>
+            <th colspan="7">
+                <%= sums.total %> Stunden
+            </th>
+        </tr>
+    </tfoot>
+</table>
