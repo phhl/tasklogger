@@ -27,13 +27,13 @@ Ein moderner Aufgaben-Logger für Projekte und Arbeitszeiten mit Mehrbenutzerver
    npm install
    ```
 
-3. `.env` Datei anlegen (optional):
+3. `.env.example` kopieren und anpassen (optional):
 
-   ```env
-   SESSION_SECRET=dein_geheimes_session_secret
-   DB_PATH=./db/logger.sqlite
-   PORT=3000
+   ```bash
+   cp .env.example .env
    ```
+
+   Passe danach bei Bedarf die Werte in `.env` an.
 
 4. Starten:
 
