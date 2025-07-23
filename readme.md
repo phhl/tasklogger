@@ -43,7 +43,7 @@ Ein moderner Aufgaben-Logger für Projekte und Arbeitszeiten mit Mehrbenutzerver
 
    Die App läuft auf [http://localhost:3000](http://localhost:3000)
 
-Beim ersten Start wird automatisch ein Admin-Account (Benutzer: `admin`, Passwort: `admin123`) angelegt, sofern keine Benutzer existieren.
+Beim ersten Start wird automatisch ein Admin-Account (Benutzer: `admin`, Passwort: `password`) angelegt, sofern keine Benutzer existieren.
 
 ## Benutzerverwaltung
 
