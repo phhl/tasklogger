@@ -17,7 +17,7 @@ Ein moderner Aufgaben-Logger für Projekte und Arbeitszeiten mit Mehrbenutzerver
 1. Repository klonen und wechseln:
 
    ```bash
-   git clone https://github.com/<deinuser>/tasklogger.git
+   git clone https://github.com/phhl/tasklogger.git
    cd tasklogger
    ```
 
