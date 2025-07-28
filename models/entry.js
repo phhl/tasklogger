@@ -7,8 +7,8 @@ const db = require("./db");
 function createEntry(entry) {
   const stmt = db.prepare(`
         INSERT INTO entries
-        (user_id, date, activity, duration_h, duration_m, travel_h, travel_m, t1, t2, t3, t4)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (user_id, date, activity, duration_h, duration_m, travel_h, travel_m, t1, t2, t3, t4, trip_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
   stmt.run(
     entry.user_id,
@@ -21,7 +21,8 @@ function createEntry(entry) {
     entry.t1,
     entry.t2,
     entry.t3,
-    entry.t4
+    entry.t4,
+    entry.trip_id || null
   );
 }
 
@@ -48,7 +49,7 @@ function updateEntry(id, entry) {
     `
         UPDATE entries
         SET date = ?, activity = ?, duration_h = ?, duration_m = ?, travel_h = ?, travel_m = ?,
-            t1 = ?, t2 = ?, t3 = ?, t4 = ?, updated_at = CURRENT_TIMESTAMP
+            t1 = ?, t2 = ?, t3 = ?, t4 = ?, trip_id = ?, updated_at = CURRENT_TIMESTAMP
         WHERE id = ?
     `
   ).run(
@@ -62,6 +63,7 @@ function updateEntry(id, entry) {
     entry.t2,
     entry.t3,
     entry.t4,
+    entry.trip_id || null,
     id
   );
 }

@@ -38,7 +38,7 @@
                 <td colspan="5">Keine Einträge für diesen Monat.</td>
             </tr>
             <% } else { %>
-                <% entries.forEach(e=> { %>
+                <% entries.forEach(function(e){ %>
                     <tr>
                         <td>
                             <%= e.date %>
@@ -75,10 +75,10 @@
                             </div>
                         </td>
                         <td>
-                            <%= e.duration_h %>:<%= (""+e.duration_m).padStart(2, "0" ) %>
+                            <%= e.duration_h %>:<%= ("0" + e.duration_m).slice(-2) %>
                         </td>
                         <td>
-                            <%= e.travel_h %>:<%= (""+e.travel_m).padStart(2, "0" ) %>
+                            <%= e.travel_h %>:<%= ("0" + e.travel_m).slice(-2) %>
                         </td>
                         <td>
                             <a class="button is-small is-info mb-1"
