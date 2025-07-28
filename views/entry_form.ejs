@@ -6,120 +6,133 @@
     <div class="columns is-multiline">
         <div class="column is-6">
             <div class="field">
-                <label class="label">Datum</label>
+                <label class="label">Startdatum</label>
                 <div class="control">
-                    <input class="input" type="date" name="date" value="<%= entry.date %>" required>
+                    <input class="input" type="date" id="startDate" name="date" value="<%= entry.date %>" required>
                 </div>
             </div>
         </div>
-        <div class="column is-12">
+        <div class="column is-6">
+            <div class="field">
+                <label class="checkbox">
+                    <input type="checkbox" id="multi-day-toggle" name="multi">
+                    Mehrtägige Dienstreise
+                </label>
+            </div>
+        </div>
+        <div class="column is-6" id="end-date-field" style="display:none;">
+            <div class="field">
+                <label class="label">Enddatum</label>
+                <div class="control">
+                    <input class="input" type="date" id="endDate" name="end_date">
+                </div>
+            </div>
+        </div>
+
+        <div id="single-day-fields" class="column is-12">
             <div class="field">
                 <label class="label">Tätigkeit</label>
                 <div class="control">
                     <textarea class="textarea" name="activity" required><%= entry.activity || '' %></textarea>
                 </div>
             </div>
-        </div>
 
-
-        <div class="column is-3-desktop is-4-tablet">
-            <div class="field">
-                <label class="label">Arbeitszeit</label>
-                <div class="field has-addons">
-                    <div class="control">
-                        <div class="select">
-                            <select name="duration_h" required>
-                                <% for (let h=0; h <=12; h++) { %>
-                                    <option value="<%= h %>" <%=+entry.duration_h===h ? 'selected' : '' %>><%= h %>
-                                            h</option>
-                                    <% } %>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control">
-                        <div class="select">
-                            <select name="duration_m" required>
-                                <% [0,15,30,45].forEach(m=> { %>
-                                    <option value="<%= m %>" <%=+entry.duration_m===m ? 'selected' : '' %>><%= m %>
-                                            min</option>
-                                    <% }); %>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="column is-3-desktop is-4-tablet">
-            <div class="field">
-                <label class="label">Fahrzeit</label>
-                <div class="field has-addons">
-                    <div class="control">
-                        <div class="select">
-                            <select name="travel_h">
-                                <% for (let h=0; h <=12; h++) { %>
-                                    <option value="<%= h %>" <%=+entry.travel_h===h ? 'selected' : '' %>><%= h %> h
-                                    </option>
-                                    <% } %>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control">
-                        <div class="select">
-                            <select name="travel_m">
-                                <% [0,15,30,45].forEach(m=> { %>
-                                    <option value="<%= m %>" <%=+entry.travel_m===m ? 'selected' : '' %>><%= m %>
-                                            min</option>
-                                    <% }); %>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="column is-12" id="travel-times-block">
-            <div class="columns ">
+            <div class="columns is-multiline">
                 <div class="column is-3-desktop is-4-tablet">
                     <div class="field">
-                        <label class="label">Beginn Dienstreise</label>
-                        <div class="control">
-                            <input class="input" type="time" name="t1" value="<%= entry.t1 || '' %>">
+                        <label class="label">Arbeitszeit</label>
+                        <div class="field has-addons">
+                            <div class="control">
+                                <div class="select">
+                                    <select name="duration_h" required>
+                                        <% for (let h=0; h <=12; h++) { %>
+                                            <option value="<%= h %>" <%=+entry.duration_h===h ? 'selected' : '' %>><%= h %> h</option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="duration_m" required>
+                                        <% [0,15,30,45].forEach(m=> { %>
+                                            <option value="<%= m %>" <%=+entry.duration_m===m ? 'selected' : '' %>><%= m %> min</option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="column is-3-desktop is-4-tablet">
                     <div class="field">
-                        <label class="label">Beginn Dienstgeschäft</label>
-                        <div class="control">
-                            <input class="input" type="time" name="t2" value="<%= entry.t2 || '' %>">
+                        <label class="label">Fahrzeit</label>
+                        <div class="field has-addons">
+                            <div class="control">
+                                <div class="select">
+                                    <select name="travel_h">
+                                        <% for (let h=0; h <=12; h++) { %>
+                                            <option value="<%= h %>" <%=+entry.travel_h==h ? 'selected' : '' %>><%= h %> h</option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="travel_m">
+                                        <% [0,15,30,45].forEach(m=> { %>
+                                            <option value="<%= m %>" <%=+entry.travel_m==m ? 'selected' : '' %>><%= m %> min</option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-            </div>
-
-            <div class="columns ">
-                <div class="column is-3-desktop is-4-tablet">
-                    <div class="field">
-                        <label class="label">Ende Dienstgeschäft</label>
-                        <div class="control">
-                            <input class="input" type="time" name="t3" value="<%= entry.t3 || '' %>">
+                <div class="column is-12" id="travel-times-block">
+                    <div class="columns">
+                        <div class="column is-3-desktop is-4-tablet">
+                            <div class="field">
+                                <label class="label">Beginn Dienstreise</label>
+                                <div class="control">
+                                    <input class="input" type="time" name="t1" value="<%= entry.t1 || '' %>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-3-desktop is-4-tablet">
+                            <div class="field">
+                                <label class="label">Beginn Dienstgeschäft</label>
+                                <div class="control">
+                                    <input class="input" type="time" name="t2" value="<%= entry.t2 || '' %>">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="column is-3-desktop is-4-tablet">
-                    <div class="field">
-                        <label class="label">Ende Dienstreise</label>
-                        <div class="control">
-                            <input class="input" type="time" name="t4" value="<%= entry.t4 || '' %>">
+
+                    <div class="columns">
+                        <div class="column is-3-desktop is-4-tablet">
+                            <div class="field">
+                                <label class="label">Ende Dienstgeschäft</label>
+                                <div class="control">
+                                    <input class="input" type="time" name="t3" value="<%= entry.t3 || '' %>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-3-desktop is-4-tablet">
+                            <div class="field">
+                                <label class="label">Ende Dienstreise</label>
+                                <div class="control">
+                                    <input class="input" type="time" name="t4" value="<%= entry.t4 || '' %>">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <div id="multi-day-fields" class="column is-12"></div>
     </div>
-
 
     <div class="column is-12">
         <div class="field">
@@ -128,7 +141,6 @@
             </button>
             <a class="button is-light" href="/uebersicht">Abbrechen</a>
         </div>
-    </div>
     </div>
 </form>
 <script>
@@ -140,13 +152,128 @@
             block.style.display = '';
         } else {
             block.style.display = 'none';
-            // Optional: Leere Felder beim Ausblenden
             document.querySelectorAll('#travel-times-block input').forEach(f => f.value = '');
         }
     }
+
+    function createDayBlock(idx, date) {
+        var hours = '';
+        for (var h=0; h<=12; h++) { hours += '<option value="'+h+'">'+h+' h</option>'; }
+        var mins = '';
+        [0,15,30,45].forEach(m => { mins += '<option value="'+m+'">'+m+' min</option>'; });
+        return `
+            <div class="box day-block">
+                <h2 class="title is-5">${date}</h2>
+                <input type="hidden" name="days[${idx}][date]" value="${date}">
+                <div class="field">
+                    <label class="label">Tätigkeit</label>
+                    <div class="control">
+                        <textarea class="textarea" name="days[${idx}][activity]" required></textarea>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Arbeitszeit</label>
+                    <div class="field has-addons">
+                        <div class="control"><div class="select"><select name="days[${idx}][duration_h]" required>${hours}</select></div></div>
+                        <div class="control"><div class="select"><select name="days[${idx}][duration_m]" required>${mins}</select></div></div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Fahrzeit</label>
+                    <div class="field has-addons">
+                        <div class="control"><div class="select"><select class="travel-h" name="days[${idx}][travel_h]">${hours}</select></div></div>
+                        <div class="control"><div class="select"><select class="travel-m" name="days[${idx}][travel_m]">${mins}</select></div></div>
+                    </div>
+                </div>
+                <div class="columns travel-times-block">
+                    <div class="column is-3-desktop is-4-tablet">
+                        <div class="field">
+                            <label class="label">Beginn Dienstreise</label>
+                            <div class="control"><input class="input" type="time" name="days[${idx}][t1]"></div>
+                        </div>
+                    </div>
+                    <div class="column is-3-desktop is-4-tablet">
+                        <div class="field">
+                            <label class="label">Beginn Dienstgeschäft</label>
+                            <div class="control"><input class="input" type="time" name="days[${idx}][t2]"></div>
+                        </div>
+                    </div>
+                    <div class="column is-3-desktop is-4-tablet">
+                        <div class="field">
+                            <label class="label">Ende Dienstgeschäft</label>
+                            <div class="control"><input class="input" type="time" name="days[${idx}][t3]"></div>
+                        </div>
+                    </div>
+                    <div class="column is-3-desktop is-4-tablet">
+                        <div class="field">
+                            <label class="label">Ende Dienstreise</label>
+                            <div class="control"><input class="input" type="time" name="days[${idx}][t4]"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function attachListeners(block) {
+        const travelH = block.querySelector('.travel-h');
+        const travelM = block.querySelector('.travel-m');
+        const ttBlock = block.querySelector('.travel-times-block');
+        function check() {
+            const th = parseInt(travelH.value || 0);
+            const tm = parseInt(travelM.value || 0);
+            if (th + tm > 0) {
+                ttBlock.style.display = '';
+            } else {
+                ttBlock.style.display = 'none';
+                ttBlock.querySelectorAll('input').forEach(i => i.value = '');
+            }
+        }
+        travelH.addEventListener('change', check);
+        travelM.addEventListener('change', check);
+        check();
+    }
+
+    function updateMultiDayBlocks() {
+        const container = document.getElementById('multi-day-fields');
+        container.innerHTML = '';
+        const start = document.getElementById('startDate').value;
+        const end = document.getElementById('endDate').value;
+        if (!start || !end) return;
+        const s = new Date(start);
+        const e = new Date(end);
+        if (s > e) return;
+        let idx = 0;
+        for (let d = new Date(s); d <= e; d.setDate(d.getDate()+1)) {
+            const ds = d.toISOString().slice(0,10);
+            container.insertAdjacentHTML('beforeend', createDayBlock(idx, ds));
+            attachListeners(container.lastElementChild);
+            idx++;
+        }
+    }
+
+    function toggleMulti() {
+        const multi = document.getElementById('multi-day-toggle').checked;
+        document.getElementById('end-date-field').style.display = multi ? '' : 'none';
+        if (multi) {
+            document.getElementById('single-day-fields').style.display = 'none';
+            updateMultiDayBlocks();
+            document.getElementById('multi-day-fields').style.display = '';
+        } else {
+            document.getElementById('single-day-fields').style.display = '';
+            document.getElementById('multi-day-fields').style.display = 'none';
+            document.getElementById('multi-day-fields').innerHTML = '';
+            checkTravelFields();
+        }
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('multi-day-toggle').addEventListener('change', toggleMulti);
+        document.getElementById('endDate').addEventListener('change', updateMultiDayBlocks);
+        document.getElementById('startDate').addEventListener('change', updateMultiDayBlocks);
         document.querySelector('[name="travel_h"]').addEventListener('change', checkTravelFields);
         document.querySelector('[name="travel_m"]').addEventListener('change', checkTravelFields);
+        toggleMulti();
         checkTravelFields();
     });
 </script>

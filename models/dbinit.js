@@ -48,6 +48,7 @@ function initDbAndSeed() {
                 t2 TEXT,              -- Beginn Dienstgeschäft (HH:MM) optional
                 t3 TEXT,              -- Ende Dienstgeschäft (HH:MM) optional
                 t4 TEXT,              -- Ende Dienstreise (HH:MM) optional
+                trip_id INTEGER,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP,
                 updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY(user_id) REFERENCES users(id)
@@ -57,6 +58,38 @@ function initDbAndSeed() {
     console.log("==> Tabelle 'entries' angelegt/überprüft.");
   } catch (err) {
     console.error("==> FEHLER beim Anlegen der Tabelle 'entries':", err);
+  }
+
+  // Neue Tabelle für mehrtägige Dienstreisen
+  try {
+    db.prepare(
+      `
+            CREATE TABLE IF NOT EXISTS trips (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER,
+                start_date TEXT,
+                end_date TEXT,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY(user_id) REFERENCES users(id)
+            );
+        `
+    ).run();
+    console.log("==> Tabelle 'trips' angelegt/überprüft.");
+  } catch (err) {
+    console.error("==> FEHLER beim Anlegen der Tabelle 'trips':", err);
+  }
+
+  // Prüfen, ob Spalte trip_id existiert (für Updates alter DBs)
+  try {
+    const cols = db.prepare("PRAGMA table_info(entries)").all();
+    const hasTrip = cols.some((c) => c.name === "trip_id");
+    if (!hasTrip) {
+      db.prepare("ALTER TABLE entries ADD COLUMN trip_id INTEGER").run();
+      console.log("==> Spalte 'trip_id' zu 'entries' hinzugefügt.");
+    }
+  } catch (err) {
+    console.error("==> FEHLER beim Prüfen/Hinzufügen von 'trip_id':", err);
   }
 
   // Anzahl der vorhandenen User prüfen

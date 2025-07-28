@@ -21,7 +21,8 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 // Formulardaten und JSON parsen
-app.use(express.urlencoded({ extended: false }));
+// extended:true erlaubt verschachtelte Felder (z.B. für mehrtägige Reisen)
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Session-Handling (mit SQLite-Store)

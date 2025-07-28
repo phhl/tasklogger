@@ -9,6 +9,7 @@ const {
   updateEntry,
   deleteEntry,
 } = require("../models/entry");
+const { createTrip } = require("../models/trip");
 
 // Formular für neuen Eintrag (Standard: heutiges Datum)
 router.get("/neu", (req, res) => {
@@ -23,6 +24,34 @@ router.get("/neu", (req, res) => {
 
 // Eintrag anlegen
 router.post("/neu", (req, res) => {
+  if (req.body.multi && Array.isArray(req.body.days)) {
+    const days = req.body.days;
+    const tripId = createTrip({
+      user_id: req.session.userId,
+      start_date: days[0].date,
+      end_date: days[days.length - 1].date,
+    });
+    days.forEach((d) => {
+      const e = {
+        user_id: req.session.userId,
+        date: d.date,
+        activity: d.activity,
+        duration_h: d.duration_h,
+        duration_m: d.duration_m,
+        travel_h: d.travel_h,
+        travel_m: d.travel_m,
+        t1: d.t1,
+        t2: d.t2,
+        t3: d.t3,
+        t4: d.t4,
+        trip_id: tripId,
+      };
+      createEntry(e);
+    });
+    req.flash("success", "Einträge gespeichert.");
+    return res.redirect("/uebersicht");
+  }
+
   const entry = {
     user_id: req.session.userId,
     date: req.body.date,
@@ -35,6 +64,7 @@ router.post("/neu", (req, res) => {
     t2: req.body.t2,
     t3: req.body.t3,
     t4: req.body.t4,
+    trip_id: null,
   };
   createEntry(entry);
   req.flash("success", "Eintrag gespeichert.");
@@ -74,6 +104,7 @@ router.post("/bearbeiten/:id", (req, res) => {
     t2: req.body.t2,
     t3: req.body.t3,
     t4: req.body.t4,
+    trip_id: oldEntry.trip_id,
   };
   updateEntry(req.params.id, entry);
   req.flash("success", "Eintrag aktualisiert.");
