@@ -14,9 +14,10 @@
         </div>
         <div class="column is-6">
             <div class="field">
-                <label class="checkbox">
+                <label class="switch is-rounded">
                     <input type="checkbox" id="multi-day-toggle" name="multi">
-                    Mehrtägige Dienstreise
+                    <span class="check"></span>
+                    <span class="control-label">Mehrtägige Dienstreise</span>
                 </label>
             </div>
         </div>
@@ -33,7 +34,7 @@
             <div class="field">
                 <label class="label">Tätigkeit</label>
                 <div class="control">
-                    <textarea class="textarea" name="activity" required><%= entry.activity || '' %></textarea>
+                    <textarea class="textarea" name="activity" id="single-activity" required><%= entry.activity || '' %></textarea>
                 </div>
             </div>
 
@@ -254,16 +255,19 @@
 
     function toggleMulti() {
         const multi = document.getElementById('multi-day-toggle').checked;
+        const singleActivity = document.getElementById('single-activity');
         document.getElementById('end-date-field').style.display = multi ? '' : 'none';
         if (multi) {
             document.getElementById('single-day-fields').style.display = 'none';
             updateMultiDayBlocks();
             document.getElementById('multi-day-fields').style.display = '';
+            singleActivity.removeAttribute('required');
         } else {
             document.getElementById('single-day-fields').style.display = '';
             document.getElementById('multi-day-fields').style.display = 'none';
             document.getElementById('multi-day-fields').innerHTML = '';
             checkTravelFields();
+            singleActivity.setAttribute('required', 'required');
         }
     }
 

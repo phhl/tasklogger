@@ -16,15 +16,17 @@ router.get("/", (req, res) => {
   const entries = getEntriesByUserAndMonth(req.session.userId, year, month);
   const sums = sumTimes(entries);
 
-  res.render("overview", {
-    ...res.locals,
-    title: "Monatsübersicht",
-    entries,
-    year,
-    month,
-    sums,
-    messages: req.flash(),
-  });
+  res.render(
+    "overview",
+    Object.assign({}, res.locals, {
+      title: "Monatsübersicht",
+      entries: entries,
+      year: year,
+      month: month,
+      sums: sums,
+      messages: req.flash(),
+    })
+  );
 });
 
 module.exports = router;
